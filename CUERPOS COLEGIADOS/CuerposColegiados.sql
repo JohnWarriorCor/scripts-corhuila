@@ -30,7 +30,7 @@ CONSTRAINT funciones_curpos_colegiados_FK_cuerpos_colegiados FOREIGN KEY (cuc_co
 
 select * from general.funciones_curpos_colegiados f
 left join general.cuerpos_colegiados cc on f.cuc_codigo = cc.cuc_codigo 
-where f.cuc_codigo = 1 and f.fcc_estado = 1 
+where f.cuc_codigo = 2 and f.fcc_estado = 1 
 
 INSERT INTO general.funciones_curpos_colegiados
 (cuc_codigo, fcc_nombre)
