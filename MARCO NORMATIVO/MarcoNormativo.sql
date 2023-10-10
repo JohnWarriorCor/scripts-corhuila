@@ -74,7 +74,7 @@ CREATE TABLE general.norma (
     nor_rectoria int NOT NULL,
     cuc_codigo int NULL,
     not_codigo int NOT NULL,
-    nor_numero int NOT NULL,
+    nor_numero varchar(10) NOT NULL,
     nor_nombre varchar(500) NOT NULL,
     nor_url varchar(500) NOT NULL,
     nom_codigo int NOT NULL,
@@ -99,12 +99,15 @@ UPDATE general.norma
 SET noe_codigo=0, ene_codigo=0, nor_rectoria=0, cuc_codigo=0, not_codigo=0, nor_numero=0, nor_nombre='', nor_url='', nom_codigo=0, nor_fecha_expedicion='', nor_fecha_vigencia='', nor_deroga=0, nor_observacion='', nor_estado=1
 WHERE nor_codigo=nextval('general.norma_nor_codigo_seq'::regclass);
 
-select * from general.norma n 
+select *, nt2.not_nombre || ' ' || n2.nor_numero || ' ' || n2.nor_nombre as norma_padre from general.norma n 
 inner join general.norma_entidad ne on n.noe_codigo = ne.noe_codigo 
 inner join general.norma_tipo nt on n.not_codigo = nt.not_codigo 
 inner join general.norma_medio nm on n.nom_codigo = nm.nom_codigo 
 left join general.cuerpos_colegiados cc on n.cuc_codigo = cc.cuc_codigo 
 left join general.entidad_externa ee on n.ene_codigo = ee.ene_codigo
+left join general.norma_deroga nd on n.nor_codigo = nd.nor_codigo_hijo and nd.nod_estado = 1
+left join general.norma n2 on nd.nor_codigo_padre = n2.nor_codigo 
+left join general.norma_tipo nt2 on nt2.not_codigo = n2.not_codigo 
 where n.nor_estado = 1
 
 select * from general.norma n 
@@ -172,7 +175,7 @@ select nd.nod_codigo, nd.nod_observacion, nd.nod_estado, dt.det_codigo, dt.det_n
 inner join general.deroga_tipo dt on nd.det_codigo = dt.det_codigo 
 left join general.norma n on nd.nor_codigo_padre  = n.nor_codigo 
 inner join general.norma n2 on nd.nor_codigo_hijo = n2.nor_codigo 
-where nd.nod_estado = 1 and nd.nor_codigo_padre = 4
+where nd.nod_estado = 1 and nd.nor_codigo_padre = 2
 
 
 ---------------------------
@@ -211,6 +214,8 @@ CREATE TABLE general.norma_clasificada (
 );
 --RELACION NORMA GRUPO CLASIFICACIÓN
 
+
+select * from general.norma_clasificada
 
 INSERT INTO general.norma_clasificada
 (nor_codigo, nog_codigo)
