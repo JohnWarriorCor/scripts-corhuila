@@ -171,10 +171,11 @@ SET det_codigo=0, nor_codigo_padre=0, nor_codigo_hijo=0, nod_observacion='', nod
 WHERE nod_codigo=;
 
 
-select nd.nod_codigo, nd.nod_observacion, nd.nod_estado, dt.det_codigo, dt.det_nombre, nd.nor_codigo_padre, n.nor_nombre as nor_nombre_padre, nd.nor_codigo_hijo, n2.nor_nombre as nor_nombre_hijo from general.norma_deroga nd 
+select nd.nod_codigo, nd.nod_observacion, nd.nod_estado, dt.det_codigo, dt.det_nombre, nd.nor_codigo_padre, n.nor_nombre as nor_nombre_padre, nd.nor_codigo_hijo, nt2.not_nombre || ' ' || n2.nor_numero || ' ' || n2.nor_nombre as nor_nombre_hijo from general.norma_deroga nd 
 inner join general.deroga_tipo dt on nd.det_codigo = dt.det_codigo 
 left join general.norma n on nd.nor_codigo_padre  = n.nor_codigo 
 inner join general.norma n2 on nd.nor_codigo_hijo = n2.nor_codigo 
+left join general.norma_tipo nt2 on nt2.not_codigo = n2.not_codigo 
 where nd.nod_estado = 1 and nd.nor_codigo_padre = 2
 
 
