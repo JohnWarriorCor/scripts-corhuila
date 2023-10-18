@@ -26,13 +26,24 @@ CREATE TABLE general.integrante_cuerpo_colegiado (
     ust_codigo int NOT NULL,
     mit_codigo int NULL,
     icc_fecha_inicio date NOT NULL,
-    icc_fecha_fin date NOT NULL,
+    icc_fecha_fin date NULL,
     icc_observacicon varchar(250) NULL,
     icc_estado int DEFAULT 1 NOT null,
     CONSTRAINT integrante_cuerpo_colegiado_FK_cuerpos_colegiados FOREIGN KEY (cuc_codigo) REFERENCES general.cuerpos_colegiados(cuc_codigo),
-    CONSTRAINT integrante_cuerpo_colegiado_FK_persona FOREIGN KEY (per_codigo) REFERENCES general.persona(per_codigo),
-    CONSTRAINT integrante_cuerpo_colegiado_FK_usuario_tipo FOREIGN KEY (ust_codigo) REFERENCES general.usuario_tipo(ust_codigo)    
+    CONSTRAINT integrante_cuerpo_colegiado_FK_persona FOREIGN KEY (per_codigo) REFERENCES general.persona(per_codigo)    
 );
+
+select * from general.integrante_cuerpo_colegiado icc
+
+
+select * from general.norma n 
+
+select * from general.integrante_cuerpo_colegiado icc 
+inner join general.cuerpos_colegiados cc on icc.cuc_codigo = cc.cuc_codigo 
+inner join general.persona p on icc.per_codigo = p.per_codigo 
+left join general.usuario_tipo ut ON icc.ust_codigo = ut.ust_codigo 
+left join general.miembro_tipo mt on icc.mit_codigo = mt.mit_codigo 
+order by icc.icc_fecha_inicio
 
 CONSTRAINT integrante_cuerpo_colegiado_FK_miembro_tipo FOREIGN KEY (mit_codigo) REFERENCES general.miembro_tipo(mit_codigo)
 
