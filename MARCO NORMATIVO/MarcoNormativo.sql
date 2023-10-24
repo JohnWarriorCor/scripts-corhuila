@@ -124,7 +124,7 @@ inner join general.norma_tipo nt on n.not_codigo = nt.not_codigo
 inner join general.norma_medio nm on n.nom_codigo = nm.nom_codigo 
 left join general.cuerpos_colegiados cc on n.cuc_codigo = cc.cuc_codigo 
 left join general.entidad_externa ee on n.ene_codigo = ee.ene_codigo
-WHERE NOT EXISTS ( SELECT * FROM general.norma_deroga nd WHERE n.nor_codigo = nd.nor_codigo_hijo and nd.nod_estado != 0 ); 
+where n.nor_estado = 1 and NOT EXISTS ( SELECT * FROM general.norma_deroga nd WHERE n.nor_codigo = nd.nor_codigo_hijo and nd.nod_estado != 0 ); 
 
 ---------------------------
 -----TABLA DEROGA TIPO------
