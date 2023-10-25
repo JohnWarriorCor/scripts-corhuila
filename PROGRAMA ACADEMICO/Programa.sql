@@ -143,10 +143,18 @@ CREATE TABLE general.estado_snies (
     ess_estado int DEFAULT 1 NOT NULL
 );
 
+INSERT INTO general.estado_snies
+(ess_nombre)
+VALUES('ACTIVO');
+INSERT INTO general.estado_snies
+(ess_nombre)
+VALUES('INACTIVO');
+
 --TABLA PROGRAMA
 CREATE TABLE general.programa (
     pro_codigo SERIAL PRIMARY KEY,
     pro_codigo_snies int not null,
+    ess_codigo int not null,
     cip_codigo int not null,
     nif_codigo int not null,
     mod_codigo int not null,
@@ -166,6 +174,7 @@ CREATE TABLE general.programa (
     pro_fecha_creacion date not NULL,
     pro_fecha_registro_snies date not NULL,
     pro_estado int DEFAULT 1 NOT null,
+    CONSTRAINT programa_FK_estado_snies FOREIGN KEY (ess_codigo) REFERENCES general.estado_snies(ess_codigo),
     CONSTRAINT programa_FK_ciclo_propedeutico FOREIGN KEY (cip_codigo) REFERENCES general.ciclo_propedeutico(cip_codigo),
     CONSTRAINT programa_FK_nivel_formacion FOREIGN KEY (nif_codigo) REFERENCES general.nivel_formacion(nif_codigo),
     CONSTRAINT programa_FK_modalidad FOREIGN KEY (mod_codigo) REFERENCES general.modalidad(mod_codigo),
@@ -179,6 +188,7 @@ CREATE TABLE general.programa (
 
 
 select * from general.programa p 
+inner join general.estado_snies es on p.ess_codigo = es.ess_codigo 
 inner join general.ciclo_propedeutico cp on p.cip_codigo = cp.cip_codigo 
 inner join general.nivel_formacion nf on p.nif_codigo = nf.nif_codigo 
 inner join general.nivel_academico na on nf.nia_codigo = na.nia_codigo 
