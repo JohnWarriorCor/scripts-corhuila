@@ -78,25 +78,27 @@ select * from general.caracter_academico
 ----------------------------
 
 CREATE TABLE general.institucion (
-    ins_codigo SERIAL NOT NULL PRIMARY KEY,
-    ins_nit varchar(50) NOT NULL,
-    ins_snies int NOT NULL,
-    ins_snies_padre int NOT NULL, 
-    naj_codigo int not null,
-    sec_codigo int not null,
-    caa_codigo int not null,
-    ins_nombre varchar(100) NOT NULL,
-    ccp_divipola char(8) not null,
-    ins_direccion varchar(100) NOT NULL,
-    ins_telefono varchar(100) NOT NULL,
-    ins_pagina_web varchar(100) NOT NULL,
-    ins_norma_creacion varchar(100) NOT NULL,
-    ins_fecha_norma date NOT NULL,
-    ins_estado int DEFAULT 1 NOT null,
-    CONSTRAINT institucion_FK_naturaleza_juridica FOREIGN KEY (naj_codigo) REFERENCES naturaleza_juridica(naj_codigo),
-    CONSTRAINT institucion_FK_sector FOREIGN KEY (sec_codigo) REFERENCES sector(sec_codigo),
-    CONSTRAINT institucion_FK_caracter_academico FOREIGN KEY (caa_codigo) REFERENCES caracter_academico(caa_codigo),
-    CONSTRAINT institucion_FK_cabeceras_centros_poblados FOREIGN KEY (ccp_divipola) REFERENCES cabeceras_centros_poblados(ccp_divipola)
+	ins_codigo SERIAL NOT NULL,
+	ins_nit varchar(50) NOT NULL,
+	ins_snies int NOT NULL,
+	ins_snies_padre int NOT NULL,
+	naj_codigo int NOT NULL,
+	sec_codigo int NOT NULL,
+	caa_codigo int NOT NULL,
+	ins_nombre varchar(100) NOT NULL,
+	ccp_divipola char(8) NOT NULL,
+	ins_direccion varchar(100) NOT NULL,
+	ins_telefono varchar(100) NOT NULL,
+	ins_pagina_web varchar(100) NOT NULL,
+	nor_codigo int NOT NULL,
+	ins_fecha_norma date NOT NULL,
+	ins_estado int NOT NULL DEFAULT 1,
+	CONSTRAINT institucion_pkey PRIMARY KEY (ins_codigo),
+	CONSTRAINT institucion_fk_cabeceras_centros_poblados FOREIGN KEY (ccp_divipola) REFERENCES general.cabeceras_centros_poblados(ccp_divipola),
+	CONSTRAINT institucion_fk_caracter_academico FOREIGN KEY (caa_codigo) references general.caracter_academico(caa_codigo),
+	CONSTRAINT institucion_fk_naturaleza_juridica FOREIGN KEY (naj_codigo) REFERENCES general.naturaleza_juridica(naj_codigo),
+	CONSTRAINT institucion_fk_norma FOREIGN KEY (nor_codigo) REFERENCES general.norma(nor_codigo),
+	CONSTRAINT institucion_fk_sector FOREIGN KEY (sec_codigo) REFERENCES general.sector(sec_codigo)
 );
 
 select * from general.institucion i 
